@@ -80,8 +80,7 @@ class GoodReadsHandler(object):
                 bot_handler.send_reply(message, bot_response)
 
              elif cmd == 'GetPrice':
-              bot_response = get_book_price_amazon(query)
-              bot_handler.send_reply(message, bot_response)
+              bot_handler.send_reply(message, get_book_price_amazon(query))
 
              else:
               bot_handler.send_reply(message,"Sorry, did not get that command!")
@@ -104,14 +103,14 @@ def get_book_price_amazon(query:str) -> str:
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '#twotabsearchtextbox')))
     searchbox = browser.find_element_by_css_selector('#twotabsearchtextbox')
     searchbox.click()
-    searchbox.send_keys(query)
+    searchbox.send_keys('Pride and Prejudice')
     search = browser.find_element_by_class_name('nav-input')
     search.click()
     wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'a-color-price')))
     price = browser.find_element_by_class_name('a-color-price')
+    return price.text
     browser.quit()
     display.stop()
-    return price.text
 
   except:
     return 'There was an error executing the task. Maybe the page failed to load. Check your connection and enter the query again'
